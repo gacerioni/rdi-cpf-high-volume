@@ -1,5 +1,6 @@
 package io.platformengineer.rdicpfhighvolume.address;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.platformengineer.rdicpfhighvolume.person.Person;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -11,7 +12,6 @@ import lombok.Data;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "street", nullable = false, columnDefinition = "TEXT")
@@ -28,6 +28,10 @@ public class Address {
 
     @Column(name = "country", nullable = false, columnDefinition = "TEXT")
     private String country;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @MapsId
+    private Person person;
 
     public Address() {
     }

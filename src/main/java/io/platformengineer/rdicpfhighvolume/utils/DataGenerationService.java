@@ -32,9 +32,6 @@ public class DataGenerationService {
     @Autowired
     private AddressRepository addressRepository;
 
-    public DataGenerationService() {
-    }
-
     @PostConstruct
     public void init() {
         // Initial data load if necessary
@@ -55,15 +52,19 @@ public class DataGenerationService {
         Integer age = faker.number().numberBetween(17, 55);
         Long cpf = faker.number().randomNumber(11, true);
         String zipCode = faker.bothify("#####-###");
-        Address address = createAddress();
 
+        // Create person and save to get an ID
         Person person = new Person(firstName, lastName, email, age, cpf, zipCode);
+        person = personRepository.save(person);  // Save person to assign an ID
+
+        Address address = createAddress(person);  // Pass person to create Address
         person.setAddress(address);
 
-        return personRepository.save(person);
+        // Save address separately if needed, or rely on cascade from saving person again
+        return personRepository.save(person);  // Save the person again with the address set
     }
 
-    private Address createAddress() {
+    private Address createAddress(Person person) {
         String street = faker.address().streetName();
         String city = faker.address().city();
         String state = faker.address().state();
@@ -71,7 +72,8 @@ public class DataGenerationService {
         String country = faker.address().country();
 
         Address address = new Address(street, city, state, postalCode, country);
-        return addressRepository.save(address);
+        address.setPerson(person);  // Link person to address
+        return addressRepository.save(address);  // Save and return address
     }
 
     private void registerVehicleForPerson(Person person) {
