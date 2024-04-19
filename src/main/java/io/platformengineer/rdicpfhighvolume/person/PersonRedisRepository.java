@@ -2,7 +2,8 @@ package io.platformengineer.rdicpfhighvolume.person;
 
 import com.redis.om.spring.repository.RedisDocumentRepository;
 
-public interface PersonRedisRepository extends RedisDocumentRepository<PersonRedis,String> {
+import java.util.List;
 
+public interface PersonRedisRepository extends RedisDocumentRepository<PersonRedis,String> {
 
 }

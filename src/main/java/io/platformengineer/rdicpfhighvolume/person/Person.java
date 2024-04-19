@@ -1,5 +1,6 @@
 package io.platformengineer.rdicpfhighvolume.person;
 
+import io.platformengineer.rdicpfhighvolume.address.Address;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,6 +22,9 @@ public class Person {
     private Integer age;
     @Column(name = "zip_code", nullable = false, columnDefinition = "TEXT")
     private String zipCode;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private Address address;
 
 
     public Person() {

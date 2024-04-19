@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.Locale;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "io.platformengineer.rdicpfhighvolume")
 @EnableScheduling
 @EnableTransactionManagement
 @EnableRedisDocumentRepositories(basePackages = "io.platformengineer.rdicpfhighvolume.*")
