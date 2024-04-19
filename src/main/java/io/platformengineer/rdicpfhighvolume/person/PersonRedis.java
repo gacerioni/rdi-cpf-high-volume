@@ -10,8 +10,9 @@ import org.springframework.data.annotation.TypeAlias;
 @RequiredArgsConstructor(staticName = "of")
 @Data
 @TypeAlias("PersonRedis")
-@Document(prefixes = {"io.platformengineer.rdicpfhighvolume.person.PersonRedis:", "person:"})
+//@Document(prefixes = {"io.platformengineer.rdicpfhighvolume.person.PersonRedis:", "person:"})
 //@Document(prefixes = {"gabriel:"})
+@Document("person:cpf")
 public class PersonRedis {
 
     @Id

@@ -46,7 +46,7 @@ public class DataGenerationService {
     private Person createPerson() {
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName();
-        String email = String.format("%s.%s@amigoscode.edu", firstName, lastName);
+        String email = String.format("%s.%s@platformengineer.io", firstName, lastName);
         Integer age = faker.number().numberBetween(17, 55);
         Long cpf = faker.number().randomNumber(11, true);
         String zipCode = faker.bothify("#####-###");
@@ -57,7 +57,7 @@ public class DataGenerationService {
     private Person registerPerson() {
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName();
-        String email = String.format("%s.%s@amigoscode.edu", firstName, lastName);
+        String email = String.format("%s.%s@platformengineer.io", firstName, lastName);
         Integer age = faker.number().numberBetween(17, 55);
         Long cpf = faker.number().randomNumber(11, true);
         String zipCode = faker.bothify("#####-###");
