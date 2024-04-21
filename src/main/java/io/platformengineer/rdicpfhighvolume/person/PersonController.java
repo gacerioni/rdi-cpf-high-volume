@@ -3,6 +3,7 @@ package io.platformengineer.rdicpfhighvolume.person;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Book;
@@ -15,6 +16,20 @@ public class PersonController {
 
     @Autowired
     private PersonService personService;
+
+    // Create general person
+    @PostMapping("/")
+    public ResponseEntity<Person> createPerson(@RequestBody PersonCreationDTO personCreationDTO) {
+        Person savedPerson = personService.createPerson(personCreationDTO);
+        return new ResponseEntity<>(savedPerson, HttpStatus.CREATED);
+    }
+
+    // Create person with details
+    @PostMapping("/withDetails")
+    public ResponseEntity<Person> createPersonWithDetails(@RequestBody Person person) {
+        Person savedPerson = personService.save(person);
+        return new ResponseEntity<>(savedPerson, HttpStatus.CREATED);
+    }
 
     @GetMapping
     public List<Person> findAll() {

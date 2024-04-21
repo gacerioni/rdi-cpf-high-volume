@@ -1,8 +1,12 @@
 package io.platformengineer.rdicpfhighvolume.person;
 
 import io.platformengineer.rdicpfhighvolume.address.Address;
+import io.platformengineer.rdicpfhighvolume.vehicle.Vehicle;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity(name = "Person")
@@ -25,6 +29,9 @@ public class Person {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address;
+
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Vehicle> vehicles = new HashSet<>();
 
 
     public Person() {
