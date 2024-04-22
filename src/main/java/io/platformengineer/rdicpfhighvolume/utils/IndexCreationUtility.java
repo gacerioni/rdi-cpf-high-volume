@@ -16,12 +16,11 @@ public class IndexCreationUtility {
     @Value("${redis.uri}")
     private String redisUri;
 
-    @PostConstruct
     public void createIndexes() {
         try (JedisPooled jedis = new JedisPooled(redisUri)) {
 
             // Flush all data from Redis before creating the index
-            jedis.flushAll();
+            //jedis.flushAll();
 
             // Define the schema based on the provided structure
             Schema schema = new Schema()

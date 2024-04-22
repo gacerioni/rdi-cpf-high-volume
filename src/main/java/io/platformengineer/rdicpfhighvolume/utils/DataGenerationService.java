@@ -18,12 +18,18 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Value;
+
+
 @Service
 @Transactional
 public class DataGenerationService {
 
     private final Faker faker = new Faker(new Locale("pt-BR"));
     private final Random random = new Random();
+
+    @Value("${faker-data-generation.enabled:true}")
+    private boolean dataGenerationEnabled;
 
     @Autowired
     private PersonRepository personRepository;
@@ -39,6 +45,9 @@ public class DataGenerationService {
 
     @Scheduled(fixedDelay = 3000)
     public void registerPersonAndVehicle() {
+        if (!dataGenerationEnabled) {
+            return;
+        }
         for (int i = 0; i < 3; i++) {
             Person person = registerPerson();
             registerVehicleForPerson(person); // Ensures at least one vehicle per person

@@ -81,6 +81,13 @@
 			<artifactId>jakarta.annotation-api</artifactId>
 			<version>3.0.0</version>
 		</dependency>
+		<!-- Apache Commons CSV for handling CSV files -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>1.8</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

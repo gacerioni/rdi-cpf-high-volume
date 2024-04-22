@@ -55,6 +55,7 @@ public class RdiCpfHighVolumeApplication {
 		};
 	}
 
+	/*
 	@Bean
 	CommandLineRunner loadTestData(PersonRedisRepository repo) {
 		return args -> {
@@ -76,5 +77,5 @@ public class RdiCpfHighVolumeApplication {
 			}
 		};
 	}
-
+	*/
 }
