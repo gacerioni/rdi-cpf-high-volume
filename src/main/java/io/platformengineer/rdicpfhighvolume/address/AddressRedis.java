@@ -1,6 +1,8 @@
 package io.platformengineer.rdicpfhighvolume.address;
 
 import com.redis.om.spring.annotations.GeoIndexed;
+import com.redis.om.spring.annotations.Indexed;
+import com.redis.om.spring.annotations.Searchable;
 import org.springframework.data.geo.Point;
 import lombok.*;
 
@@ -11,18 +13,22 @@ import lombok.*;
 public class AddressRedis {
 
     @NonNull
+    @Searchable
     private String street;
 
     @NonNull
+    @Indexed
     private String city;
 
     @NonNull
+    @Indexed
     private String state;
 
     @NonNull
     private String postalCode;
 
     @NonNull
+    @Indexed
     private String country;
 
     @GeoIndexed  // This annotation is crucial for geospatial operations in Redis

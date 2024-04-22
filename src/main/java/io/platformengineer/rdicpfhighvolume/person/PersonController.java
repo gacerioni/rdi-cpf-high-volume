@@ -1,6 +1,7 @@
 package io.platformengineer.rdicpfhighvolume.person;
 
 
+import io.micrometer.core.annotation.Timed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +32,13 @@ public class PersonController {
         return new ResponseEntity<>(savedPerson, HttpStatus.CREATED);
     }
 
+    @Timed(value = "person.find_all_mysql", description = "Time taken to retrieve all persons from MySQL")
     @GetMapping
     public List<Person> findAll() {
         return personService.findAll();
     }
 
+    @Timed(value = "person.find_by_id_mysql", description = "Time taken to retrieve a person by id from MySQL")
     @GetMapping("/{id}")
     public Optional<Person> findById(@PathVariable Long id) {
         return personService.findById(id);
@@ -61,6 +64,7 @@ public class PersonController {
         personService.deleteById(id);
     }
 
+    @Timed(value = "person.find_by_cpf_mysql", description = "Time taken to retrieve a person by CPF from MySQL")
     @GetMapping("/find/cpf/{cpf}")
     public List<Person> findByCPF(@PathVariable String cpf) {
         return personService.findByCPF(cpf);

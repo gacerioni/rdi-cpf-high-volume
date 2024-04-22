@@ -1,5 +1,7 @@
 package io.platformengineer.rdicpfhighvolume;
 import com.redis.om.spring.annotations.EnableRedisDocumentRepositories;
+import io.micrometer.core.aop.TimedAspect;
+import io.micrometer.core.instrument.MeterRegistry;
 import io.platformengineer.rdicpfhighvolume.person.Person;
 import io.platformengineer.rdicpfhighvolume.person.PersonRedis;
 import io.platformengineer.rdicpfhighvolume.person.PersonRedisRepository;
@@ -28,6 +30,10 @@ public class RdiCpfHighVolumeApplication {
 		SpringApplication.run(RdiCpfHighVolumeApplication.class, args);
 	}
 
+	@Bean
+	public TimedAspect timedAspect(MeterRegistry registry) {
+		return new TimedAspect(registry);
+	}
 
 	@Bean
 	CommandLineRunner commandLineRunner(

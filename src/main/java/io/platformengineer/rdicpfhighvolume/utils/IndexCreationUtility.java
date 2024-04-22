@@ -24,13 +24,13 @@ public class IndexCreationUtility {
 
             // Define the schema based on the provided structure
             Schema schema = new Schema()
-                    .addTextField("$.first_name", 1.0)
-                    .addTextField("$.last_name", 1.0)
-                    .addTextField("$.email", 1.0)
-                    .addTextField("$.address.*.city", 1.0)
-                    .addTextField("$.address.*.state", 1.0)
-                    .addTextField("$.address.*.country", 1.0)
-                    .addTextField("$.address.*.street", 1.0)
+                    .addTextField("$.first_name", 1.0).as("first_name")
+                    .addTextField("$.last_name", 1.0).as("last_name")
+                    .addTextField("$.email", 1.0).as("email")
+                    .addTextField("$.address.*.street", 1.0).as("street")  // Adjusted path
+                    .addTextField("$.address.*.city", 1.0).as("city")       // Adjusted path
+                    .addTextField("$.address.*.state", 1.0).as("state")     // Adjusted path
+                    .addTextField("$.address.*.country", 1.0).as("country") // Adjusted path
                     .addTextField("$.vehicles.*.model", 1.0).as("model")
                     .addTextField("$.vehicles.*.plate", 1.0).as("plate")
                     .addTagField("$.vehicles.*.color", ",").as("color")

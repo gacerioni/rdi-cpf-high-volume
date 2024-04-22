@@ -1,4 +1,5 @@
 package io.platformengineer.rdicpfhighvolume.person;
+import io.micrometer.core.annotation.Timed;
 import io.platformengineer.rdicpfhighvolume.address.Address;
 import io.platformengineer.rdicpfhighvolume.address.AddressRepository;
 import io.platformengineer.rdicpfhighvolume.vehicle.Vehicle;

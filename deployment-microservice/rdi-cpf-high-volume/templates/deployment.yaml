@@ -34,7 +34,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.full_image_name }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
@@ -46,6 +46,17 @@ spec:
             {{- toYaml .Values.readinessProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          {{- if or .Values.env.config .Values.env.secrets }}
+          envFrom:
+          {{- if .Values.env.config }}
+            - configMapRef:
+                name: {{ include "rdi-cpf-high-volume.fullname" . }}
+          {{- end }}
+          {{- if .Values.env.secrets }}
+            - secretRef:
+                name: {{ include "rdi-cpf-high-volume.fullname" . }}
+          {{- end }}
+          {{- end }}
           {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}

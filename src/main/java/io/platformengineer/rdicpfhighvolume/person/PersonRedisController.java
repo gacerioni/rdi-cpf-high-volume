@@ -1,5 +1,6 @@
 package io.platformengineer.rdicpfhighvolume.person;
 
+import io.micrometer.core.annotation.Timed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,15 +11,17 @@ import java.util.Optional;
 public class PersonRedisController {
 
     @Autowired
-    private PersonRedisRepository personRedisRepository;
+    private PersonRedisService personRedisService;
 
+    // Method to retrieve all persons from Redis
     @GetMapping
     public Iterable<PersonRedis> findAll() {
-        return personRedisRepository.findAll();
+        return personRedisService.findAll();
     }
 
+    // Method to retrieve a person by CPF from Redis
     @GetMapping("/{cpf}")
-    public Optional<PersonRedis> findById(@PathVariable Long cpf) {
-        return personRedisRepository.findById(String.valueOf(cpf));
+    public Optional<PersonRedis> findByCPF(@PathVariable Long cpf) {
+        return personRedisService.findByCPF(String.valueOf(cpf));
     }
 }
