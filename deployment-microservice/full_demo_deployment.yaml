@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: rdi-demo
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rdi-cpf-high-volume-deployment
+  namespace: rdi-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rdi-cpf-high-volume
+  template:
+    metadata:
+      labels:
+        app: rdi-cpf-high-volume
+    spec:
+      containers:
+        - name: rdi-cpf-high-volume
+          image: gacerioni/rdi-cpf-high-volume:0.1.0-GABS
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rdi-cpf-high-volume-service
+  namespace: rdi-demo
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30080
+  selector:
+    app: rdi-cpf-high-volume

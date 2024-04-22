@@ -38,6 +38,9 @@ public class DataGenerationService {
     @Autowired
     private AddressRepository addressRepository;
 
+    private static final int MAX_PERSON_COUNT = 100;  // Maximum number of persons allowed
+
+
     @PostConstruct
     public void init() {
         // Initial data load if necessary
@@ -48,7 +51,14 @@ public class DataGenerationService {
         if (!dataGenerationEnabled) {
             return;
         }
-        for (int i = 0; i < 3; i++) {
+
+        long personCount = personRepository.count();
+        if (personCount >= MAX_PERSON_COUNT) {
+            System.out.println("Maximum number of persons reached. Adjusting data or skipping insertions.");
+            return;
+        }
+
+        for (int i = 0; i < 10; i++) {
             Person person = registerPerson();
             registerVehicleForPerson(person); // Ensures at least one vehicle per person
         }
