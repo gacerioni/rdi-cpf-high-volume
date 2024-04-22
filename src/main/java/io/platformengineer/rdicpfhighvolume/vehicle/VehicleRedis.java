@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.geo.Point;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,6 +19,7 @@ public class VehicleRedis {
     @NonNull
     private Long id;
     @NonNull
+    @Searchable
     private String plate;
     @NonNull
     @Searchable
@@ -24,10 +27,27 @@ public class VehicleRedis {
     @NonNull
     private Integer year;
     @NonNull
+    @Indexed(separator = ",")
     private String color;
     @NonNull
     @Indexed
     private String brand;
+
     private Double latitude;
     private Double longitude;
+    @GeoIndexed
+    private Point location;
+
+
+    public Point convertLocationToPoint(String location) {
+        String[] parts = location.split(",");
+        double longitude = Double.parseDouble(parts[0]);
+        double latitude = Double.parseDouble(parts[1]);
+        return new Point(longitude, latitude);
+    }
+
+    public void setLocation(String location) {
+        this.location = convertLocationToPoint(location);
+    }
+
 }

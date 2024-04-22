@@ -80,20 +80,38 @@ public class DataGenerationService {
         List<Vehicle> vehicles = new ArrayList<>();
         int numVehicles = random.nextInt(5) + 1; // Generates 1 to 5 vehicles
 
+        // List of hardcoded locations
+        List<double[]> locations = List.of(
+                new double[]{-43.2104874, -22.951916},   // Christ the Redeemer, Brazil
+                new double[]{12.4922309, 41.8902102},   // Colosseum, Italy
+                new double[]{-74.0445023, 40.6892494},  // Statue of Liberty, USA
+                new double[]{35.2340985, 31.7766874},   // Western Wall, Israel
+                new double[]{13.377704, 52.5162746},    // Brandenburg Gate, Germany
+                new double[]{139.744732, 35.6585805},   // Tokyo Tower, Japan
+                new double[]{2.2944813, 48.8583701}     // Eiffel Tower, France
+        );
+
         for (int i = 0; i < numVehicles; i++) {
             String plate = faker.bothify("???-####");
             String model = faker.options().option("Corolla", "Civic", "Golf");
             int year = faker.number().numberBetween(2010, 2021);
             String color = faker.color().name();
             String brand = faker.company().name();
-            double latitude = faker.number().randomDouble(5, -90, 90);
-            double longitude = faker.number().randomDouble(5, -180, 180);
 
-            Vehicle vehicle = new Vehicle(plate, model, year, color, brand, latitude, longitude);
+            // Randomly select a location from the list
+            double[] selectedLocation = locations.get(random.nextInt(locations.size()));
+
+            // Use selected coordinates for each vehicle
+            Vehicle vehicle = new Vehicle(plate, model, year, color, brand, selectedLocation[0], selectedLocation[1]);
             vehicle.setPerson(person);
             vehicles.add(vehicle);
         }
 
-        vehicleRepository.saveAll(vehicles);
+        try {
+            vehicleRepository.saveAll(vehicles);
+            //System.out.println("Vehicles registered successfully with randomized locations.");
+        } catch (Exception e) {
+            System.err.println("Error registering vehicles: " + e.getMessage());
+        }
     }
 }

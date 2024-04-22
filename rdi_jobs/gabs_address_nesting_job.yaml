@@ -1,0 +1,17 @@
+source:
+  server_name: gabs-jpa-redis-rdi-demo
+  db: rdi-demo-gabs
+  table: address
+output:
+  - uses: redis.write
+    with:
+      nest: # 'key' parameter is not allowed with `nest`
+        parent:
+          # server_name: chinook
+          # schema: public
+          table: person
+        nesting_key: person_cpf # cannot be composite
+        parent_key: cpf # cannot be composite
+        child_key: person_cpf
+        path: $.address # path must start from document root ($)
+        structure: map # optional, "map" is the only supported option

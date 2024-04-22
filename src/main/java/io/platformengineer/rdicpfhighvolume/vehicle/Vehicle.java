@@ -42,7 +42,7 @@ public class Vehicle {
     public Vehicle() {
     }
 
-    public Vehicle(String plate, String model, Integer year, String color, String brand, double latitude, double longitude) {
+    public Vehicle(String plate, String model, Integer year, String color, String brand, double longitude, double latitude) {
         this.plate = plate;
         this.model = model;
         this.year = year;

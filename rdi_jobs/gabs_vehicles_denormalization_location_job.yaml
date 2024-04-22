@@ -1,0 +1,22 @@
+source:
+  server_name: gabs-jpa-redis-rdi-demo
+  db: rdi-demo-gabs
+  table: vehicle
+transform:
+  - uses: add_field
+    with:
+      fields:
+        - field: location
+          expression: concat([longitude, ',', latitude])
+          language: jmespath
+output:
+  - uses: redis.write
+    with:
+      nest:
+        parent:
+          table: person
+        nesting_key: id
+        parent_key: cpf
+        child_key: person_cpf
+        path: $.vehicles
+        structure: map
