@@ -1,6 +1,6 @@
 package io.platformengineer.rdicpfhighvolume.vehicle;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
 import io.platformengineer.rdicpfhighvolume.person.Person;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -27,7 +27,7 @@ public class Vehicle {
     private double latitude;
     @Column(name = "longitude", nullable = false, columnDefinition = "TEXT")
     private double longitude;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "person_cpf",
             nullable = false,

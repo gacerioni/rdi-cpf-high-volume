@@ -1,5 +1,6 @@
 package io.platformengineer.rdicpfhighvolume.person;
 
+import com.fasterxml.jackson.annotation.*;
 import io.platformengineer.rdicpfhighvolume.address.Address;
 import io.platformengineer.rdicpfhighvolume.vehicle.Vehicle;
 import jakarta.persistence.*;
@@ -28,9 +29,11 @@ public class Person {
     private String zipCode;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
+    @JsonManagedReference
     private Address address;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
     private Set<Vehicle> vehicles = new HashSet<>();
 
 

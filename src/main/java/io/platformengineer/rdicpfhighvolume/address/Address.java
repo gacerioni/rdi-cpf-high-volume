@@ -1,6 +1,9 @@
 package io.platformengineer.rdicpfhighvolume.address;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import io.platformengineer.rdicpfhighvolume.person.Person;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -31,6 +34,7 @@ public class Address {
 
     @OneToOne(fetch = FetchType.EAGER)
     @MapsId
+    @JsonBackReference
     private Person person;
 
     public Address() {
