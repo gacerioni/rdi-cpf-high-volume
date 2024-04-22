@@ -4,6 +4,9 @@ service:
   port: 8080
   nodePort: 30080
 
+livenessProbe: {}
+readinessProbe: {}
+
 tolerations:
   - key: "node.kubernetes.io/disk-pressure"
     operator: "Exists"
