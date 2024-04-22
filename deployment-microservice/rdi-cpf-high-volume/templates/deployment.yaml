@@ -1,3 +1,23 @@
+{{- if .Values.env.config}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "rdi-cpf-high-volume.fullname" . }}
+data:
+{{ .Values.env.config | toYaml | indent 2 }}
+---
+{{- end}}
+
+{{- if .Values.env.secrets}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ include "rdi-cpf-high-volume.fullname" . }}
+stringData:
+{{ .Values.env.secrets | toYaml | indent 2 }}
+---
+{{- end}}
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
