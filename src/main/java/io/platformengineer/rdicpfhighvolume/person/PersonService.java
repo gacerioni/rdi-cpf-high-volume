@@ -2,6 +2,7 @@ package io.platformengineer.rdicpfhighvolume.person;
 import io.micrometer.core.annotation.Timed;
 import io.platformengineer.rdicpfhighvolume.address.Address;
 import io.platformengineer.rdicpfhighvolume.address.AddressRepository;
+import io.platformengineer.rdicpfhighvolume.harnessfeatureflag.FeatureFlagManager;
 import io.platformengineer.rdicpfhighvolume.vehicle.Vehicle;
 import io.platformengineer.rdicpfhighvolume.vehicle.VehicleRepository;
 import org.springframework.beans.BeanUtils;
@@ -25,6 +26,8 @@ public class PersonService {
     private AddressRepository addressRepository;
     @Autowired
     private VehicleRepository vehicleRepository;
+    @Autowired
+    private FeatureFlagManager featureFlagManager;
 
 
     @Transactional
@@ -55,8 +58,9 @@ public class PersonService {
      */
     private void simulateRandomDelay() {
         try {
-            // Random delay between 500ms and 1000ms (1 second)
-            int delay = ThreadLocalRandom.current().nextInt(500, 1001);
+            int minLatency = featureFlagManager.getMinLatency();
+            int maxLatency = featureFlagManager.getMaxLatency();
+            int delay = ThreadLocalRandom.current().nextInt(minLatency, maxLatency + 1);
             Thread.sleep(delay);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
