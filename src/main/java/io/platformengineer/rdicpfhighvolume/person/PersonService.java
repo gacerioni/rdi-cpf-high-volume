@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,11 +50,27 @@ public class PersonService {
         return person;
     }
 
+    /**
+     * Introduces a randomized delay to simulate processing time.
+     */
+    private void simulateRandomDelay() {
+        try {
+            // Random delay between 500ms and 1000ms (1 second)
+            int delay = ThreadLocalRandom.current().nextInt(500, 1001);
+            Thread.sleep(delay);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            // Handle the interruption appropriately, maybe log it or rethrow if needed
+        }
+    }
+
     public List<Person> findAll() {
+        simulateRandomDelay();
         return personRepository.findAll();
     }
 
     public Optional<Person> findById(Long id) {
+        simulateRandomDelay();
         return personRepository.findById(id);
     }
 
@@ -66,6 +83,7 @@ public class PersonService {
     }
 
     public List<Person> findByCPF(String cpf) {
+        simulateRandomDelay();
         return personRepository.findByCPF(cpf);
     }
 
