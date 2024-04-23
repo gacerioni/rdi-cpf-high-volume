@@ -10,7 +10,7 @@ metadata:
   name: rdi-cpf-high-volume-deployment
   namespace: rdi-demo
 spec:
-  replicas: 1
+  replicas: 2  # Set to 2 replicas as previously updated
   selector:
     matchLabels:
       app: rdi-cpf-high-volume
@@ -25,11 +25,11 @@ spec:
           imagePullPolicy: Always
           resources:
             requests:
-              memory: "1Gi"
-              cpu: "1"
+              memory: "512Mi"  # Reduced from "1Gi" to "512Mi"
+              cpu: "500m"      # Reduced from "1" to "500m"
             limits:
-              memory: "2Gi"
-              cpu: "1"
+              memory: "2Gi"    # Limits remain as previously defined
+              cpu: "1"         # Limits remain as previously defined
           ports:
             - containerPort: 8080
           livenessProbe:
@@ -53,6 +53,7 @@ spec:
             initialDelaySeconds: 15
             periodSeconds: 5
             failureThreshold: 10
+
 ---
 
 apiVersion: v1
