@@ -38,7 +38,7 @@ public class DataGenerationService {
     @Autowired
     private AddressRepository addressRepository;
 
-    private static final int MAX_PERSON_COUNT = 100;  // Maximum number of persons allowed
+    private static final int MAX_PERSON_COUNT = 3000;  // Maximum number of persons allowed
 
 
     @PostConstruct
@@ -46,7 +46,7 @@ public class DataGenerationService {
         // Initial data load if necessary
     }
 
-    @Scheduled(fixedDelay = 3000)
+    @Scheduled(fixedDelay = 5000)
     public void registerPersonAndVehicle() {
         if (!dataGenerationEnabled) {
             return;
@@ -58,7 +58,7 @@ public class DataGenerationService {
             return;
         }
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 3; i++) {
             Person person = registerPerson();
             registerVehicleForPerson(person); // Ensures at least one vehicle per person
         }
