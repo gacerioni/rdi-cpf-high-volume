@@ -23,6 +23,13 @@ spec:
         - name: rdi-cpf-high-volume
           image: gacerioni/rdi-cpf-high-volume:0.2.0-GABS
           imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "250m"
+            limits:
+              memory: "2Gi"
+              cpu: "500m"
           ports:
             - containerPort: 8080
           livenessProbe:
