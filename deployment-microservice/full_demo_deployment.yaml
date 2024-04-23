@@ -47,16 +47,16 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: minimal-ingress
+  name: rdi-cpf-high-volume-ingress
   namespace: rdi-demo
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
   rules:
     - http:
         paths:
-          - path: /rdi-cpf-high-volume
+          - path: /rdi-cpf-high-volume(/|$)(.*)
             pathType: Prefix
             backend:
               service:
