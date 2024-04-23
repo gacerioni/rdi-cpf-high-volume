@@ -26,10 +26,10 @@ spec:
           resources:
             requests:
               memory: "1Gi"
-              cpu: "250m"
+              cpu: "1"
             limits:
               memory: "2Gi"
-              cpu: "500m"
+              cpu: "1"
           ports:
             - containerPort: 8080
           livenessProbe:
