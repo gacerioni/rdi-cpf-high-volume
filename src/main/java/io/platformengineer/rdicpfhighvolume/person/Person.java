@@ -32,8 +32,8 @@ public class Person {
     @JsonManagedReference
     private Address address;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Vehicle> vehicles = new HashSet<>();
 
 

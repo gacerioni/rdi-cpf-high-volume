@@ -31,8 +31,8 @@ public class RedisInitializationService implements ApplicationListener<ContextRe
             // Create indexes
             indexCreationUtility.createIndexes();
 
-            // Load CSV data
-            csvDataLoaderService.loadCSVData();
+            // Load CSV data - disabled because I'll do this via the API. This reader is causing too much problem in PROD.
+            // csvDataLoaderService.loadCSVData();
         }
     }
 }

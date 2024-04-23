@@ -7,6 +7,7 @@ import io.platformengineer.rdicpfhighvolume.address.Address;
 import io.platformengineer.rdicpfhighvolume.address.AddressRepository;
 import io.platformengineer.rdicpfhighvolume.vehicle.Vehicle;
 import io.platformengineer.rdicpfhighvolume.vehicle.VehicleRepository;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -37,13 +38,15 @@ public class DataGenerationService {
     private VehicleRepository vehicleRepository;
     @Autowired
     private AddressRepository addressRepository;
+    @Autowired
+    private EntityManager entityManager;
 
     private static final int MAX_PERSON_COUNT = 3000;  // Maximum number of persons allowed
 
 
     @PostConstruct
     public void init() {
-        // Initial data load if necessary
+        //insertControlledData();
     }
 
     @Scheduled(fixedDelay = 5000)
@@ -62,6 +65,41 @@ public class DataGenerationService {
             Person person = registerPerson();
             registerVehicleForPerson(person); // Ensures at least one vehicle per person
         }
+    }
+
+    private void insertControlledData() {
+        Random random = new Random();
+        long cpf;
+        boolean cpfExists;
+
+        do {
+            cpf = random.nextLong(10000000000L, 99999999999L); // Ensure 11 digits
+            cpfExists = personRepository.existsById(cpf);
+        } while (cpfExists);
+
+        // Define controlled data based on your specified requirements
+        Person person = new Person("Gabriel", "Cerioni", "gabriel.cerioni@platformengineer.io", 32, cpf, "04128000");
+        person = personRepository.save(person); // Save and immediately flush to ensure it's committed
+
+        Address address = new Address("Rua dos Alfeneiros 4", "Sao Paulo", "Sao Paulo", "04128000", "Brazil");
+        address.setPerson(person);
+        addressRepository.save(address); // Save and immediately flush
+
+        person.setAddress(address);
+        /*
+        // Add vehicles
+        List<Vehicle> vehicles = List.of(
+                new Vehicle("IBI-9087", "Civic", 2020, "Red", "Honda", -46.660683, -23.601852),
+                new Vehicle("BEL-3142", "3 Series", 2021, "Black", "BMW", -43.934559, -19.917299),
+                new Vehicle("RIO-6789", "Golf", 2019, "White", "Volkswagen", -43.172897, -22.906847),
+                new Vehicle("POA-4321", "X5", 2020, "Blue", "BMW", -51.217659, -30.034647),
+                new Vehicle("MAN-9023", "Passat", 2018, "Silver", "Volkswagen", -60.021732, -3.119028),
+                new Vehicle("NYC-1234", "320i", 2022, "Grey", "BMW", -74.0060152, 40.7127281),
+                new Vehicle("PER-8901", "Tiguan", 2021, "Black", "Volkswagen", -46.631082477201446, -23.602452414425716),
+                new Vehicle("JAP-5566", "Accord", 2020, "White", "Honda", 139.762221, 35.6821936),
+                new Vehicle("ITA-1425", "3 Series", 2018, "Blue", "BMW", 12.4829321, 41.8933203)
+        );
+        */// Ensure all vehicles are flushed at once after the loop
     }
 
     private Person registerPerson() {
