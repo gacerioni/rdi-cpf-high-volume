@@ -41,3 +41,25 @@ spec:
       nodePort: 30080
   selector:
     app: rdi-cpf-high-volume
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minimal-ingress
+  namespace: rdi-demo
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /rdi-cpf-high-volume
+            pathType: Prefix
+            backend:
+              service:
+                name: rdi-cpf-high-volume-service
+                port:
+                  number: 8080
