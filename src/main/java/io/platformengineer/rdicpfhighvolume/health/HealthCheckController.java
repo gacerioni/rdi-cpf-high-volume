@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.platformengineer.rdicpfhighvolume.person.PersonService;
 
 @RestController
-@RequestMapping("/health")
+@RequestMapping("/gabs")
 public class HealthCheckController {
 
     @Autowired
