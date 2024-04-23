@@ -34,27 +34,25 @@ spec:
             - containerPort: 8080
           livenessProbe:
             httpGet:
-              path: /person
+              path: /person/health
               port: 8080
             initialDelaySeconds: 90
             periodSeconds: 30
             failureThreshold: 10
           readinessProbe:
             httpGet:
-              path: /person
+              path: /person/health
               port: 8080
             initialDelaySeconds: 60
             periodSeconds: 30
             failureThreshold: 10
           startupProbe:
             httpGet:
-              path: /person
+              path: /person/health
               port: 8080
             initialDelaySeconds: 30
             periodSeconds: 20
             failureThreshold: 10
-
-
 ---
 
 apiVersion: v1

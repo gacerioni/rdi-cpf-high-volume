@@ -8,6 +8,7 @@ import io.platformengineer.rdicpfhighvolume.vehicle.VehicleRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -89,6 +90,21 @@ public class PersonService {
     public List<Person> findByCPF(String cpf) {
         simulateRandomDelay();
         return personRepository.findByCPF(cpf);
+    }
+
+    /**
+     * Perform a lightweight database check by attempting to count the number of entries in the person table.
+     * This operation is typically quick and uses minimal resources.
+     *
+     * @return boolean indicating if the database is responsive
+     */
+    public boolean isDatabaseConnectionAlive() {
+        try {
+            personRepository.count();  // This is a simple operation just to check database connectivity
+            return true;
+        } catch (DataAccessException e) {
+            return false;
+        }
     }
 
 }

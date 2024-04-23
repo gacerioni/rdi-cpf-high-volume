@@ -70,5 +70,15 @@ public class PersonController {
         return personService.findByCPF(cpf);
     }
 
+    @GetMapping("/health")
+    public ResponseEntity<String> checkHealth() {
+        if (personService.isDatabaseConnectionAlive()) {
+            return ResponseEntity.ok("Database is up!");
+        } else {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body("Database is down!");
+        }
+    }
+
+
 
 }
