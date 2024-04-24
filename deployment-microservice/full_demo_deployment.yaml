@@ -6,26 +6,12 @@ metadata:
 {{- end}}
 ---
 
-{{- if .Values.env.config}}
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: rdi-demo-config
-data:
-{{.Values.env.config | toYaml | indent 2}}
----
-{{- end}}
-
-{{- if .Values.env.secrets}}
 apiVersion: v1
 kind: Secret
 metadata:
   name: rdi-demo-secrets
 stringData:
   {{.Values.env.secrets | toYaml | indent 2}}
----
-{{- end}}
-
 ---
 
 apiVersion: apps/v1
@@ -47,17 +33,9 @@ spec:
         - name: rdi-cpf-high-volume
           image: {{.Values.image}}
           imagePullPolicy: Always
-          {{- if or .Values.env.config .Values.env.secrets}}
           envFrom:
-          {{- if .Values.env.config}}
-          - configMapRef:
-              name: rdi-demo-config
-          {{- end}}
-          {{- if .Values.env.secrets}}
           - secretRef:
               name: rdi-demo-secrets
-          {{- end}}
-          {{- end}}
           resources:
             requests:
               memory: "1Gi"
