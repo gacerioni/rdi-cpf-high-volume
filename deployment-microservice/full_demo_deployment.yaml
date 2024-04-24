@@ -11,7 +11,7 @@ kind: Secret
 metadata:
   name: rdi-demo-secrets
 stringData:
-  {{.Values.env.secrets | toYaml | indent 2}}
+{{.Values.env.secrets | toYaml | indent 2}}
 ---
 
 apiVersion: apps/v1
