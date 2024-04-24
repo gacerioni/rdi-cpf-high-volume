@@ -4,3 +4,11 @@ image: <+artifact.image>
 
 createNamespace: true
 namespace: rdi-demo
+
+env:
+  config:
+    key1: value10
+  secrets:
+    REDIS_URI: redis://default:secret42@redis-12124.internal.gabs-cluster.redisdemo.com:12124
+    SPRING_DATA_REDIS_HOST: redis-12124.internal.gabs-cluster.redisdemo.com
+    SPRING_DATA_REDIS_PORT: "12124"
