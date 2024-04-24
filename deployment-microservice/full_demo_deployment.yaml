@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: rdi-cpf-high-volume
-          image: gacerioni/rdi-cpf-high-volume:0.5.0-GABS
+          image: gacerioni/rdi-cpf-high-volume:0.6.0-GABS
           imagePullPolicy: Always
           resources:
             requests:

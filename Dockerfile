@@ -7,7 +7,7 @@ LABEL authors="gabriel.cerioni"
 WORKDIR /app
 
 # Copy the pre-built jar file from your local target folder to the container
-COPY target/rdi-cpf-high-volume-0.5.0-GABS.jar /app/app.jar
+COPY target/rdi-cpf-high-volume-0.6.0-GABS.jar /app/app.jar
 
 # Expose the port the app runs on
 EXPOSE 8080

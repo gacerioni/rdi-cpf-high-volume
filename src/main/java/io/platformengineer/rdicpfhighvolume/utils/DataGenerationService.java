@@ -49,6 +49,7 @@ public class DataGenerationService {
         //insertControlledData();
     }
 
+
     @Scheduled(fixedDelay = 5000)
     public void registerPersonAndVehicle() {
         if (!dataGenerationEnabled) {
@@ -67,40 +68,65 @@ public class DataGenerationService {
         }
     }
 
-    private void insertControlledData() {
-        Random random = new Random();
-        long cpf;
-        boolean cpfExists;
+    @Transactional
+    public void insertControlledData() {
 
-        do {
-            cpf = random.nextLong(10000000000L, 99999999999L); // Ensure 11 digits
-            cpfExists = personRepository.existsById(cpf);
-        } while (cpfExists);
 
-        // Define controlled data based on your specified requirements
-        Person person = new Person("Gabriel", "Cerioni", "gabriel.cerioni@platformengineer.io", 32, cpf, "04128000");
+        // Define a fixed CPF for predictability
+        long fixedCpf = 12345678901L; // Example CPF; ensure it meets your validation rules
+
+        // Check if the CPF already exists to avoid duplicates
+        if (personRepository.existsById(fixedCpf)) {
+            System.out.println("Person with CPF already exists.");
+            return;
+        }
+
+        // Create and save the Person
+        Person person = new Person("Gabriel", "Cerioni", "gabriel.cerioni@platformengineer.io", 32, fixedCpf, "04569-900");
         person = personRepository.save(person); // Save and immediately flush to ensure it's committed
+        System.out.println("Person registered successfully.");
 
-        Address address = new Address("Rua dos Alfeneiros 4", "Sao Paulo", "Sao Paulo", "04128000", "Brazil");
-        address.setPerson(person);
-        addressRepository.save(address); // Save and immediately flush
-
+        // Create and save the Address
+        Address address = createAddress(person);
+        System.out.println("Address registered successfully.");
+        // Set the Address to the Person and save
         person.setAddress(address);
-        /*
-        // Add vehicles
+        System.out.println("Address linked to Person.");
+        personRepository.save(person); // Save and immediately flush to ensure it's committed
+        System.out.println("Person updated with Address.");
+
+
         List<Vehicle> vehicles = List.of(
-                new Vehicle("IBI-9087", "Civic", 2020, "Red", "Honda", -46.660683, -23.601852),
-                new Vehicle("BEL-3142", "3 Series", 2021, "Black", "BMW", -43.934559, -19.917299),
-                new Vehicle("RIO-6789", "Golf", 2019, "White", "Volkswagen", -43.172897, -22.906847),
-                new Vehicle("POA-4321", "X5", 2020, "Blue", "BMW", -51.217659, -30.034647),
-                new Vehicle("MAN-9023", "Passat", 2018, "Silver", "Volkswagen", -60.021732, -3.119028),
-                new Vehicle("NYC-1234", "320i", 2022, "Grey", "BMW", -74.0060152, 40.7127281),
-                new Vehicle("PER-8901", "Tiguan", 2021, "Black", "Volkswagen", -46.631082477201446, -23.602452414425716),
-                new Vehicle("JAP-5566", "Accord", 2020, "White", "Honda", 139.762221, 35.6821936),
-                new Vehicle("ITA-1425", "3 Series", 2018, "Blue", "BMW", 12.4829321, 41.8933203)
+                new Vehicle("XYZ-1234", "Civic", 2021, "Red", "Honda", -80.1918, 25.7617),
+                new Vehicle("DEF-5678", "Corolla", 2020, "Blue", "Toyota", -118.2437, 34.0522),
+                new Vehicle("GHI-9012", "Jetta", 2019, "Black", "Volkswagen", 12.4964, 41.9028),
+                new Vehicle("JKL-3456", "Mustang", 2018, "Silver", "Ford", 139.6917, 35.6895),
+                new Vehicle("MNO-7890", "Ibiza", 2017, "Yellow", "Seat", -3.7038, 40.4168),
+                new Vehicle("PQR-1234", "Golf", 2016, "Green", "Volkswagen", 13.4050, 52.5200),
+                new Vehicle("STU-5678", "Onix", 2015, "Orange", "Chevrolet", -38.5014, -12.9714),
+                new Vehicle("VWX-9012", "Tucson", 2014, "Violet", "Hyundai", -60.0217, 3.1190),
+                new Vehicle("YZA-3456", "Sandero", 2013, "Brown", "Renault", -49.2648, 16.6869),
+                new Vehicle("BCD-7890", "Ka", 2012, "Pink", "Ford", -43.2104874, -22.951916)
         );
-        */// Ensure all vehicles are flushed at once after the loop
+
+        Person finalPerson = person;
+        vehicles.forEach(vehicle -> {
+            vehicle.setPerson(finalPerson);
+            vehicleRepository.save(vehicle);
+        });
+
+
+        /*
+        Person finalPerson = person;
+        vehicles.forEach(vehicle -> {
+            vehicle.setPerson(finalPerson);
+            vehicleRepository.save(vehicle);
+        });
+
+         */
+        //entityManager.flush(); // Ensure all changes are flushed at once
     }
+
 
     private Person registerPerson() {
         String firstName = faker.name().firstName();

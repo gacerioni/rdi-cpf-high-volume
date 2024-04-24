@@ -3,6 +3,7 @@ package io.platformengineer.rdicpfhighvolume.utils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisPooled;
+import redis.clients.jedis.exceptions.JedisDataException;
 import redis.clients.jedis.search.IndexDefinition;
 import redis.clients.jedis.search.IndexOptions;
 import redis.clients.jedis.search.Schema;
@@ -19,9 +20,14 @@ public class IndexCreationUtility {
     public void createIndexes() {
         try (JedisPooled jedis = new JedisPooled(redisUri)) {
 
-            // Flush all data from Redis before creating the index
-            //jedis.flushAll();
-
+            // Attempt to retrieve information about the index to check if it already exists
+            try {
+                jedis.ftInfo(indexName);
+                System.out.println("Index already exists.");
+                return; // Exit if index exists
+            } catch (JedisDataException e) {
+                System.out.println("Index does not exist, creating new index.");
+            }
             // Define the schema based on the provided structure
             Schema schema = new Schema()
                     .addTextField("$.first_name", 1.0).as("first_name")
