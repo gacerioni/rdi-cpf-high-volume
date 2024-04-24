@@ -41,7 +41,7 @@ public class DataGenerationService {
     @Autowired
     private EntityManager entityManager;
 
-    private static final int MAX_PERSON_COUNT = 3000;  // Maximum number of persons allowed
+    private static final int MAX_PERSON_COUNT = 10000;  // Maximum number of persons allowed
 
 
     @PostConstruct
@@ -58,11 +58,11 @@ public class DataGenerationService {
 
         long personCount = personRepository.count();
         if (personCount >= MAX_PERSON_COUNT) {
-            System.out.println("Maximum number of persons reached. Adjusting data or skipping insertions.");
+            System.out.println("Maximum number of persons reached. Adjusting data or skipping insertions. Person Count: " + personCount);
             return;
         }
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             Person person = registerPerson();
             registerVehicleForPerson(person); // Ensures at least one vehicle per person
         }
