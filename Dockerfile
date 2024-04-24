@@ -1,4 +1,17 @@
-# Use an OpenJDK Runtime image
+# Stage 1: Build the application using Maven
+FROM maven:3.8.4-openjdk-17-slim AS build
+
+# Set the working directory in the Docker image
+WORKDIR /app
+
+# Copy pom.xml and source code
+COPY pom.xml .
+COPY src ./src
+
+# Build the application
+RUN mvn clean package -DskipTests
+
+# Stage 2: Create the runtime container
 FROM amazoncorretto:17
 
 LABEL authors="gabriel.cerioni"
@@ -6,8 +19,8 @@ LABEL authors="gabriel.cerioni"
 # Set working directory in the container
 WORKDIR /app
 
-# Copy the pre-built jar file from your local target folder to the container
-COPY target/rdi-cpf-high-volume-0.6.0-GABS.jar /app/app.jar
+# Copy only the built JAR from the build stage
+COPY --from=build /app/target/*.jar app.jar
 
 # Expose the port the app runs on
 EXPOSE 8080

@@ -73,7 +73,8 @@ public class DataGenerationService {
 
 
         // Define a fixed CPF for predictability
-        long fixedCpf = 12345678901L; // Example CPF; ensure it meets your validation rules
+        //long fixedCpf = 12345678901L; // Example CPF; ensure it meets your validation rules
+        long fixedCpf = generateCpf(); // Generate a random CPF
 
         // Check if the CPF already exists to avoid duplicates
         if (personRepository.existsById(fixedCpf)) {
@@ -114,17 +115,6 @@ public class DataGenerationService {
             vehicle.setPerson(finalPerson);
             vehicleRepository.save(vehicle);
         });
-
-
-        /*
-        Person finalPerson = person;
-        vehicles.forEach(vehicle -> {
-            vehicle.setPerson(finalPerson);
-            vehicleRepository.save(vehicle);
-        });
-
-         */
-        //entityManager.flush(); // Ensure all changes are flushed at once
     }
 
 
@@ -196,5 +186,45 @@ public class DataGenerationService {
         } catch (Exception e) {
             System.err.println("Error registering vehicles: " + e.getMessage());
         }
+    }
+
+    // Method to generate a random CPF as a long
+    public static long generateCpf() {
+        Random random = new Random();
+        int[] cpf = new int[11];
+
+        // Generate the first 9 digits randomly
+        for (int i = 0; i < 9; i++) {
+            cpf[i] = random.nextInt(10);
+        }
+
+        // Calculate the first check digit (10th digit)
+        cpf[9] = calculateCheckDigit(cpf, 10);
+
+        // Calculate the second check digit (11th digit)
+        cpf[10] = calculateCheckDigit(cpf, 11);
+
+        // Convert the integer array to a long
+        long cpfNumber = 0;
+        for (int i = 0; i < cpf.length; i++) {
+            cpfNumber = cpfNumber * 10 + cpf[i];
+        }
+
+        return cpfNumber;
+    }
+
+    // Method to calculate CPF check digit
+    private static int calculateCheckDigit(int[] cpf, int length) {
+        int sum = 0;
+        for (int i = 0; i < length - 1; i++) {
+            sum += cpf[i] * (length - i);
+        }
+        int remainder = (sum * 10) % 11;
+        return (remainder == 10 || remainder == 11) ? 0 : remainder;
+    }
+
+    // Method to format CPF into more readable form (xxx.xxx.xxx-xx)
+    private static String formatCpf(String cpf) {
+        return cpf.substring(0, 3) + "." + cpf.substring(3, 6) + "." + cpf.substring(6, 9) + "-" + cpf.substring(9, 11);
     }
 }
