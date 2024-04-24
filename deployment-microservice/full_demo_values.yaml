@@ -1,0 +1,6 @@
+replicas: 1
+
+image: <+artifact.image>
+
+createNamespace: true
+namespace: rdi-demo

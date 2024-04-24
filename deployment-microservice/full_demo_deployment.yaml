@@ -1,7 +1,9 @@
+{{- if .Values.createNamespace}}
 apiVersion: v1
 kind: Namespace
 metadata:
   name: rdi-demo
+{{- end}}
 ---
 
 apiVersion: apps/v1
@@ -21,7 +23,7 @@ spec:
     spec:
       containers:
         - name: rdi-cpf-high-volume
-          image: gacerioni/rdi-cpf-high-volume:0.7.0-GABS
+          image: {{.Values.image}}
           imagePullPolicy: Always
           resources:
             requests:
