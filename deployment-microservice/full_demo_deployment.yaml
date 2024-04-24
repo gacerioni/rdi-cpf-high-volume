@@ -10,7 +10,7 @@ metadata:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{.Values.name}}
+  name: rdi-demo-config
 data:
 {{.Values.env.config | toYaml | indent 2}}
 ---
@@ -20,7 +20,7 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{.Values.name}}
+  name: rdi-demo-secrets
 stringData:
   {{.Values.env.secrets | toYaml | indent 2}}
 ---
@@ -51,11 +51,11 @@ spec:
           envFrom:
           {{- if .Values.env.config}}
           - configMapRef:
-              name: {{.Values.name}}
+              name: rdi-demo-config
           {{- end}}
           {{- if .Values.env.secrets}}
           - secretRef:
-              name: {{.Values.name}}
+              name: rdi-demo-secrets
           {{- end}}
           {{- end}}
           resources:
