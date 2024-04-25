@@ -112,7 +112,7 @@ metadata:
   name: rdi-swagger-ui-ingress
   namespace: rdi-demo
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/rewrite-target: /swagger-ui/$2
 spec:
   ingressClassName: nginx
   rules:
