@@ -4,6 +4,7 @@ import io.platformengineer.rdicpfhighvolume.person.Person;
 import io.platformengineer.rdicpfhighvolume.person.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,11 +21,12 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
+    @Transactional
     public Vehicle addVehicle(Long personId, Vehicle vehicle) {
         Person person = personRepository.findById(personId)
                 .orElseThrow(() -> new RuntimeException("Person not found with id " + personId));
         vehicle.setPerson(person);
-        return null;
+        return vehicleRepository.save(vehicle);
     }
 
     @Override

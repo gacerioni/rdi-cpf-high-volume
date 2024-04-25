@@ -44,7 +44,7 @@ public class PersonController {
         return personService.findById(id);
     }
 
-    // create a book
+    // create a person
     @ResponseStatus(HttpStatus.CREATED) // 201
     @PostMapping
     public Person create(@RequestBody Person person) {

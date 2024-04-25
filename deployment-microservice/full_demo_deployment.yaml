@@ -111,12 +111,14 @@ kind: Ingress
 metadata:
   name: rdi-swagger-ui-ingress
   namespace: rdi-demo
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
   rules:
     - http:
         paths:
-          - path: /swagger-ui
+          - path: /swagger-ui(/|$)(.*)
             pathType: Prefix
             backend:
               service:
