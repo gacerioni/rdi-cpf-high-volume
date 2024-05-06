@@ -56,14 +56,14 @@ spec:
             httpGet:
               path: /gabs
               port: 8080
-            initialDelaySeconds: 60
+            initialDelaySeconds: 30
             periodSeconds: 10
             failureThreshold: 5
           startupProbe:
             httpGet:
               path: /gabs
               port: 8080
-            initialDelaySeconds: 15
+            initialDelaySeconds: 65
             periodSeconds: 5
             failureThreshold: 10
 ---
