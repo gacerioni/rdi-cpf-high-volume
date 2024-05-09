@@ -41,7 +41,7 @@ public class DataGenerationService {
     @Autowired
     private EntityManager entityManager;
 
-    private static final int MAX_PERSON_COUNT = 10000;  // Maximum number of persons allowed
+    private static final int MAX_PERSON_COUNT = 50000;  // Maximum number of persons allowed
 
 
     @PostConstruct
@@ -62,7 +62,7 @@ public class DataGenerationService {
             return;
         }
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 50; i++) {
             Person person = registerPerson();
             registerVehicleForPerson(person); // Ensures at least one vehicle per person
         }

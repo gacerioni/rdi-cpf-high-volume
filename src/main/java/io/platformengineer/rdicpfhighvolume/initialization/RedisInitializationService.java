@@ -9,22 +9,20 @@ import redis.clients.jedis.JedisPooled;
 
 import io.platformengineer.rdicpfhighvolume.utils.CSVDataLoaderService;
 import io.platformengineer.rdicpfhighvolume.utils.IndexCreationUtility;
+import io.platformengineer.rdicpfhighvolume.initialization.RedisDataService;
 
 @Component
 public class RedisInitializationService implements ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired
-    private IndexCreationUtility indexCreationUtility;
-    @Autowired
-    private CSVDataLoaderService csvDataLoaderService;
-    @Autowired
-    private ControlledDataInitializationService controlledDataInitializationService;
-
-    @Value("${redis.uri}")
-    private String redisUri;
+    private RedisDataService redisDataService;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
+
+        redisDataService.initializeRedis();
+        System.out.println("##### RedisInitializationService completed. Redis data flushed, indexes created, and controlled data inserted.");
+        /*
         try (JedisPooled jedis = new JedisPooled(redisUri)) {
             // Flush all data from Redis
             jedis.flushAll();
@@ -43,6 +41,6 @@ public class RedisInitializationService implements ApplicationListener<ContextRe
 
             // Load CSV data - disabled because I'll do this via the API. This reader is causing too much problem in PROD.
             // csvDataLoaderService.loadCSVData();
-        }
+        }*/
     }
 }
