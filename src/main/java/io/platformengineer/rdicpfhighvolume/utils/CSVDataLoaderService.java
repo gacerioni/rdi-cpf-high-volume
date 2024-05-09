@@ -132,7 +132,8 @@ public class CSVDataLoaderService {
                         record.get("color"),
                         record.get("brand"),
                         Double.parseDouble(record.get("longitude")),
-                        Double.parseDouble(record.get("latitude"))
+                        Double.parseDouble(record.get("latitude")),
+                        Double.parseDouble(record.get("price"))
 
                 );
                 vehicle.setPerson(personRepository.findById(Long.parseLong(record.get("person_cpf"))).orElse(null));

@@ -27,6 +27,8 @@ public class Vehicle {
     private double latitude;
     @Column(name = "longitude", nullable = false, columnDefinition = "TEXT")
     private double longitude;
+    @Column(name = "price", nullable = false, columnDefinition = "DOUBLE")
+    private double price;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "person_cpf",
@@ -42,7 +44,7 @@ public class Vehicle {
     public Vehicle() {
     }
 
-    public Vehicle(String plate, String model, Integer year, String color, String brand, double longitude, double latitude) {
+    public Vehicle(String plate, String model, Integer year, String color, String brand, double longitude, double latitude, double price) {
         this.plate = plate;
         this.model = model;
         this.year = year;
@@ -50,6 +52,7 @@ public class Vehicle {
         this.brand = brand;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.price = price;
     }
 
 }

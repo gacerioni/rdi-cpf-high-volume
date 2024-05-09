@@ -98,17 +98,18 @@ public class DataGenerationService {
 
 
         List<Vehicle> vehicles = List.of(
-                new Vehicle("XYZ-1234", "Civic", 2021, "Red", "Honda", -80.1918, 25.7617),
-                new Vehicle("DEF-5678", "Corolla", 2020, "Blue", "Toyota", -118.2437, 34.0522),
-                new Vehicle("GHI-9012", "Jetta", 2019, "Black", "Volkswagen", 12.4964, 41.9028),
-                new Vehicle("JKL-3456", "Mustang", 2018, "Silver", "Ford", 139.6917, 35.6895),
-                new Vehicle("MNO-7890", "Ibiza", 2017, "Yellow", "Seat", -3.7038, 40.4168),
-                new Vehicle("PQR-1234", "Golf", 2016, "Green", "Volkswagen", 13.4050, 52.5200),
-                new Vehicle("STU-5678", "Onix", 2015, "Orange", "Chevrolet", -38.5014, -12.9714),
-                new Vehicle("VWX-9012", "Tucson", 2014, "Violet", "Hyundai", -60.0217, 3.1190),
-                new Vehicle("YZA-3456", "Sandero", 2013, "Brown", "Renault", -49.2648, 16.6869),
-                new Vehicle("BCD-7890", "Ka", 2012, "Pink", "Ford", -43.2104874, -22.951916)
+                new Vehicle("XYZ-1234", "Civic", 2021, "Red", "Honda", -80.1918, 25.7617, 20250.99),
+                new Vehicle("DEF-5678", "Corolla", 2020, "Blue", "Toyota", -118.2437, 34.0522, 18400.75),
+                new Vehicle("GHI-9012", "Jetta", 2019, "Black", "Volkswagen", 12.4964, 41.9028, 15700.50),
+                new Vehicle("JKL-3456", "Mustang", 2018, "Silver", "Ford", 139.6917, 35.6895, 26500.00),
+                new Vehicle("MNO-7890", "Ibiza", 2017, "Yellow", "Seat", -3.7038, 40.4168, 14800.30),
+                new Vehicle("PQR-1234", "Golf", 2016, "Green,BurroQuandoFoge", "Volkswagen", 13.4050, 52.5200, 13500.45), // Multiple colors
+                new Vehicle("STU-5678", "Onix", 2015, "Orange", "Chevrolet", -38.5014, -12.9714, 11000.70),
+                new Vehicle("VWX-9012", "Tucson", 2014, "Violet", "Hyundai", -60.0217, 3.1190, 17500.88),
+                new Vehicle("YZA-3456", "Sandero", 2013, "Brown,Black", "Renault", -49.2648, 16.6869, 9000.55), // Multiple colors
+                new Vehicle("BCD-7890", "Ka", 2012, "Pink", "Ford", -43.2104874, -22.951916, 8200.95)
         );
+
 
         Person finalPerson = person;
         vehicles.forEach(vehicle -> {
@@ -171,11 +172,14 @@ public class DataGenerationService {
             String color = faker.color().name();
             String brand = faker.company().name();
 
+            // Generate a random price
+            double price = faker.number().randomDouble(2, 15000, 50000);  // Generates price between 15,000 and 50,000
+
             // Randomly select a location from the list
             double[] selectedLocation = locations.get(random.nextInt(locations.size()));
 
             // Use selected coordinates for each vehicle
-            Vehicle vehicle = new Vehicle(plate, model, year, color, brand, selectedLocation[0], selectedLocation[1]);
+            Vehicle vehicle = new Vehicle(plate, model, year, color, brand, selectedLocation[0], selectedLocation[1], price);
             vehicle.setPerson(person);
             vehicles.add(vehicle);
         }
@@ -187,6 +191,7 @@ public class DataGenerationService {
             System.err.println("Error registering vehicles: " + e.getMessage());
         }
     }
+
 
     // Method to generate a random CPF as a long
     public static long generateCpf() {

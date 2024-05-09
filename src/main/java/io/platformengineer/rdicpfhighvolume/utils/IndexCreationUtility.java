@@ -31,7 +31,7 @@ public class IndexCreationUtility {
             // Define the schema based on the provided structure
             Schema schema = new Schema()
                     .addTextField("$.first_name", 1.0).as("first_name")
-                    .addTextField("$.last_name", 1.0).as("last_name")
+                    .addSortableTagField("$.last_name", true    ).as("last_name")
                     .addTextField("$.email", 1.0).as("email")
                     .addTextField("$.address.*.street", 1.0).as("street")  // Adjusted path
                     .addTextField("$.address.*.city", 1.0).as("city")       // Adjusted path
@@ -40,7 +40,8 @@ public class IndexCreationUtility {
                     .addTextField("$.vehicles.*.model", 1.0).as("model")
                     .addTextField("$.vehicles.*.plate", 1.0).as("plate")
                     .addTagField("$.vehicles.*.color", ",").as("color")
-                    .addGeoField("$.vehicles.*.location").as("location");
+                    .addGeoField("$.vehicles.*.location").as("location")
+                    .addSortableNumericField("$.vehicles.*.price").as("price");
 
             // Define the index options with prefix to target only specific keys
             IndexOptions options = IndexOptions.defaultOptions()

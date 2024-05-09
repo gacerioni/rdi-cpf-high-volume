@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>io.platformengineer</groupId>
 	<artifactId>rdi-cpf-high-volume</artifactId>
-	<version>0.9.0-GABS</version>
+	<version>1.0.0-STABLE</version>
 	<name>rdi-cpf-high-volume</name>
 	<description>Another Demo  by Gabs The Creator</description>
 	<properties>

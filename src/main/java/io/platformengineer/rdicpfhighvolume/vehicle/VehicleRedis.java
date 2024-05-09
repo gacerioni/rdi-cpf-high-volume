@@ -2,6 +2,7 @@ package io.platformengineer.rdicpfhighvolume.vehicle;
 
 import com.redis.om.spring.annotations.GeoIndexed;
 import com.redis.om.spring.annotations.Indexed;
+import com.redis.om.spring.annotations.NumericIndexed;
 import com.redis.om.spring.annotations.Searchable;
 import lombok.*;
 import lombok.Data;
@@ -37,6 +38,8 @@ public class VehicleRedis {
     private Double longitude;
     @GeoIndexed
     private Point location;
+    @NumericIndexed(sortable = true)
+    private Double price;
 
 
     public Point convertLocationToPoint(String location) {
