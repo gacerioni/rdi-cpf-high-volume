@@ -1,0 +1,85 @@
+source:
+  redis:
+    key_pattern: person:cpf:*    # Assuming each person's data is stored under the 'person:cpf' key in Redis.
+    trigger: write-behind
+    exclude_commands: ["json.del"]
+
+transform:
+  - uses: add_field
+    with:
+      fields:
+        - field: address
+          language: jmespath
+          expression: |
+            {
+              person_cpf: cpf,
+              city: address.city,
+              country: address.country,
+              postal_code: address.postal_code,
+              state: address.state,
+              street: address.street
+            }
+        - field: vehicles
+          language: jmespath
+          expression: |
+            vehicles[*].{
+              latitude: latitude,
+              longitude: longitude,
+              price: price,
+              year: year,
+              id: id,
+              person_cpf: cpf,
+              brand: brand,
+              color: color,
+              model: model,
+              plate: plate
+            }
+output:
+  - uses: relational.write
+    with:
+      connection: rds-mysql
+      schema: rdi-demo-gabs
+      table: person
+      keys:
+        - cpf: cpf
+      mapping:
+        - age: age
+        - address_id: address_id  # Assuming the AddressID can be derived or managed through other means.
+        - email: email
+        - first_name: first_name
+        - last_name: last_name
+        - zip_code: zip_code
+
+  - uses: relational.write
+    with:
+      connection: rds-mysql
+      schema: rdi-demo-gabs
+      table: address
+      foreach: "address: address"
+      keys:
+        - person_cpf: person_cpf
+      mapping:
+        - city: city
+        - country: country
+        - postal_code: postal_code
+        - state: state
+        - street: street
+
+  - uses: relational.write
+    with:
+      connection: rds-mysql
+      schema: rdi-demo-gabs
+      table: vehicle
+      foreach: "vehicle: vehicles[]"
+      keys:
+        - id: id
+      mapping:
+        - latitude: latitude
+        - longitude: longitude
+        - price: price
+        - year: year
+        - person_cpf: person_cpf
+        - brand: brand
+        - color: color
+        - model: model
+        - plate: plate
