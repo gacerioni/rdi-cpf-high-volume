@@ -1,6 +1,6 @@
 source:
   redis:
-    key_pattern: person:cpf:*    # Assuming each person's data is stored under the 'person:cpf' key in Redis.
+    key_pattern: person:*    # Assuming each person's data is stored under the 'person:cpf' key in Redis.
     trigger: write-behind
     exclude_commands: ["json.del"]
 
@@ -13,16 +13,16 @@ transform:
           expression: |
             {
               person_cpf: cpf,
-              city: address.city,
-              country: address.country,
-              postal_code: address.postal_code,
-              state: address.state,
-              street: address.street
+              city: address.*.city,
+              country: address.*.country,
+              postal_code: address.*.postal_code,
+              state: address.*.state,
+              street: address.*.street
             }
         - field: vehicles
           language: jmespath
           expression: |
-            vehicles[*].{
+            vehicles.* | map(&{
               latitude: latitude,
               longitude: longitude,
               price: price,
@@ -33,7 +33,8 @@ transform:
               color: color,
               model: model,
               plate: plate
-            }
+            }, @)
+
 output:
   - uses: relational.write
     with:
@@ -44,7 +45,7 @@ output:
         - cpf: cpf
       mapping:
         - age: age
-        - address_id: address_id  # Assuming the AddressID can be derived or managed through other means.
+        - address_id: address_id
         - email: email
         - first_name: first_name
         - last_name: last_name
