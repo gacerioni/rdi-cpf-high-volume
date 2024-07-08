@@ -1,5 +1,4 @@
 source:
-  server_name: gabs-jpa-redis-rdi-demo
   db: rdi-demo-gabs
   table: vehicle
 transform:
@@ -20,3 +19,5 @@ output:
         child_key: person_cpf
         path: $.vehicles
         structure: map
+      on_update: merge # only merge supported for now
+      data_type: json # only json supported for now  
