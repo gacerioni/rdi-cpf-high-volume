@@ -1,5 +1,4 @@
 source:
-  server_name: gabs-jpa-redis-rdi-demo
   db: rdi-demo-gabs
   table: address
 output:
@@ -15,3 +14,5 @@ output:
         child_key: person_cpf
         path: $.address # path must start from document root ($)
         structure: map # optional, "map" is the only supported option
+      on_update: merge # only merge supported for now
+      data_type: json # only json supported for now
