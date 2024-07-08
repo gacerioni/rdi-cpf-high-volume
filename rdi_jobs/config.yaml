@@ -1,0 +1,22 @@
+sources:
+  mysql:
+    type: cdc
+    logging:
+      level: info
+    connection:
+      type: mysql
+      host: localhost # e.g. localhost
+      port: 3306
+      database: rdi-demo-gabs  # e.g. inventory
+      # user and password are injected from the secrets
+      user: gacerioni
+      password: blablabla
+targets:
+  target:
+    connection:
+      type: redis
+      host: localhost # e.g. localhost
+      port: 12002 # e.g. 12000
+      password: blablabla
+processors:
+  target_data_type: json 
